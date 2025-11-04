@@ -1,6 +1,5 @@
 # 🔬 AI Research Agent - Advanced Multi-Agent System
 
-> **Built by:** MTech Student, NIT Durgapur  
 > **Tech Stack:** LangChain, React, FastAPI, OpenAI GPT-4  
 > **Type:** Production-Ready Multi-Agent Research System
 
