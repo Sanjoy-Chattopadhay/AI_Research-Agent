@@ -1,21 +1,20 @@
 # Core Framework
-fastapi==0.111.0
+fastapi==0.115.0
 uvicorn==0.30.0
-pydantic==2.7.1
+pydantic==2.9.0
 
 # LangChain Ecosystem
-langchain==0.1.0
-langchain-openai==0.0.5
-langchain-community==0.0.13
+langchain==0.3.0
+langchain-openai==0.2.0
+langchain-community==0.3.0
 
 # External Tools
-tavily-python==0.3.0
+tavily-python==0.5.0
 wikipedia==1.4.0
 
 # Utilities
-python-dotenv==1.0.0
+python-dotenv==1.0.1
 
 # Optional but Recommended
-python-multipart
-aiofiles==23.2.1  # Async file operations
-
+python-multipart==0.0.12
+aiofiles==24.1.0
