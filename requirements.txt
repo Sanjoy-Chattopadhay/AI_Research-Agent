@@ -1,0 +1,21 @@
+# Core Framework
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+pydantic==2.5.3
+
+# LangChain Ecosystem
+langchain==0.1.0
+langchain-openai==0.0.5
+langchain-community==0.0.13
+
+# External Tools
+tavily-python==0.3.0
+wikipedia==1.4.0
+
+# Utilities
+python-dotenv==1.0.0
+
+# Optional but Recommended
+python-multipart==0.0.6  # For file uploads
+aiofiles==23.2.1  # Async file operations
+
