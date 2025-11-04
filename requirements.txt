@@ -18,3 +18,5 @@ python-dotenv==1.0.1
 # Optional but Recommended
 python-multipart==0.0.12
 aiofiles==24.1.0
+
+numexpr
