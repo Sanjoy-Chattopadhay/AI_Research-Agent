@@ -16,6 +16,6 @@ wikipedia==1.4.0
 python-dotenv==1.0.0
 
 # Optional but Recommended
-python-multipart==0.0.6  # For file uploads
+python-multipart
 aiofiles==23.2.1  # Async file operations
 
