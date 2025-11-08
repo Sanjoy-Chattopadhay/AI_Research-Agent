@@ -349,24 +349,7 @@ MIT License - feel free to use for educational purposes
 
 ---
 
-## 👨‍🎓 Author
 
-**[Your Name]**  
-MTech Student, NIT Durgapur  
-📧 email@example.com  
-🔗 [LinkedIn](https://linkedin.com/in/yourprofile)  
-🐙 [GitHub](https://github.com/yourusername)
-
----
-
-## 🙏 Acknowledgments
-
-- **LangChain Team** - For the amazing framework
-- **OpenAI** - For GPT-4 API
-- **Tavily** - For web search capabilities
-- **NIT Durgapur** - For academic support
-
----
 
 ## 📚 References
 
