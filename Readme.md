@@ -1,363 +1,276 @@
-# 🔬 AI Research Agent - Advanced Multi-Agent System
+# 🔬 AI Research Agent
 
-> **Tech Stack:** LangChain, React, FastAPI, OpenAI GPT-4  
-> **Type:** Production-Ready Multi-Agent Research System
+> A production-grade, multi-agent research assistant that searches the live web, reads arXiv, summarizes Wikipedia, and chats with your own PDFs — powered by **free, open-source LLM providers**.
 
-[![LangChain](https://img.shields.io/badge/LangChain-1.0-blue)](https://langchain.com)
-[![React](https://img.shields.io/badge/React-18-61dafb)](https://react.dev)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.109-green)](https://fastapi.tiangolo.com)
-
-## 🎯 Project Overview
-
-An advanced AI-powered research assistant that uses **multi-agent architecture** to search, analyze, and synthesize information from multiple sources. Built with modern LangChain agents, conversational memory, and a beautiful React frontend.
-
-### Key Features
-
-#### 🤖 **Multi-Agent Architecture**
-- **Research Agent**: Web search with academic source prioritization
-- **Analysis Agent**: Deep analysis and intelligent summarization  
-- **Verification Agent**: Fact-checking and source validation
-- **Custom Tool Integration**: Calculator, Summarizer, Citation Generator, Comparator
-
-#### 💬 **Conversational Memory**
-- Maintains context across multiple queries
-- Multi-turn conversations with coherent responses
-- Session-based memory management
-
-#### 🛠️ **Advanced Tools**
-- **Web Search**: Tavily API with academic domain filtering
-- **Wikipedia**: Comprehensive background information
-- **Math Calculator**: LLMMathChain for calculations
-- **Intelligent Summarizer**: Structured research summaries
-- **Citation Generator**: Academic-style citations
-- **Comparative Analyzer**: Side-by-side comparisons
-
-#### 📊 **Real-time Analytics**
-- Token usage tracking
-- Cost monitoring ($0.0001 precision)
-- Response time metrics
-- Query history management
-
-#### 🎨 **Modern React Frontend**
-- Responsive design with gradient UI
-- Real-time message streaming
-- Export conversations (JSON, Markdown)
-- Suggested research queries
-- Dark/Light mode support
+<p>
+  <img alt="Python"   src="https://img.shields.io/badge/python-3.11-3776AB?logo=python&logoColor=white">
+  <img alt="FastAPI"  src="https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white">
+  <img alt="React"    src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white">
+  <img alt="Tailwind" src="https://img.shields.io/badge/Tailwind-3-06B6D4?logo=tailwindcss&logoColor=white">
+  <img alt="Docker"   src="https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white">
+  <img alt="License"  src="https://img.shields.io/badge/license-MIT-blue">
+  <img alt="CI"       src="https://img.shields.io/badge/CI-GitHub_Actions-2088FF?logo=github-actions&logoColor=white">
+</p>
 
 ---
 
-## 🏗️ Architecture
+## ✨ What is this?
+
+**AI Research Agent** is an end-to-end full-stack application that lets real users
+sign up, ask deep research questions, and watch a tool-using LLM agent
+**stream** its answer back in real time — citing sources from the live web, arXiv,
+Wikipedia, and the user's own uploaded documents (via RAG).
+
+It is designed to be:
+
+- 💸 **Free to run** — defaults to Groq / OpenRouter / Hugging Face / Ollama. No paid API keys required.
+- 🧑‍🤝‍🧑 **Multi-tenant** — JWT auth, per-user conversations, documents, and analytics.
+- 🚀 **Deployable in one click** — Docker, Render, Fly.io configs included.
+- 🧱 **Cleanly engineered** — modular FastAPI package, typed React app, CI, tests.
+
+> Originally an MTech course project at **NIT Durgapur**, rewritten from scratch
+> as a production-grade portfolio app.
+
+---
+
+## 🎬 Features at a glance
+
+| | |
+|---|---|
+| 🤖 **Tool-calling agent** | Custom ReAct-style loop that plans, calls tools, and answers — no fragile LangChain version pinning. |
+| 🔌 **5 LLM providers** | Groq, OpenRouter, Hugging Face, Ollama (local), OpenAI — fully swappable per request. |
+| 🌐 **Free research tools** | DuckDuckGo web search, arXiv paper search, Wikipedia, safe Python calculator. |
+| 📄 **RAG over your PDFs** | Upload `.pdf`/`.txt`/`.md`, indexed with FAISS + `sentence-transformers/all-MiniLM-L6-v2`. |
+| ⚡ **SSE streaming** | Tokens stream into the UI live, with status/tool events shown alongside. |
+| 🔐 **Auth & persistence** | bcrypt + JWT, SQLAlchemy + SQLite (Postgres ready). |
+| 📊 **Analytics dashboard** | Per-user token, latency, and cost rollups by provider. |
+| 🐳 **Docker / CI / Deploy** | Multi-stage Dockerfile, GitHub Actions, Render + Fly configs. |
+| 🌑 **Polished UI** | Vite + React + TypeScript + Tailwind, dark-mode native. |
+
+---
+
+## 🏛️ Architecture
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                 FastAPI Backend                     │
-│  ┌──────────────────────────────────────────────┐  │
-│  │         Multi-Agent Research System          │  │
-│  │                                              │  │
-│  │  ┌────────────┐  ┌────────────┐              │  │
-│  │  │  Research  │  │  Analysis  │              │  │
-│  │  │   Agent    │  │   Agent    │              │  │
-│  │  └─────┬──────┘  └─────┬──────┘              │  │
-│  │        │                │                    │  │
-│  │        └────────┬───────┘                    │  │
-│  │                 │                            │  │
-│  │         ┌───────▼────────┐                   │  │
-│  │         │   Tool Suite   │                   │  │
-│  │         │  - Web Search  │                   │  │
-│  │         │  - Wikipedia   │                   │  │
-│  │         │  - Calculator  │                   │  │
-│  │         │  - Summarizer  │                   │  │
-│  │         │  - Citations   │                   │  │
-│  │         └────────────────┘                   │  │
-│  │                                              │  │
-│  │         ┌────────────────┐                   │  │
-│  │         │ Conversational │                   │  │
-│  │         │     Memory     │                   │  │
-│  │         └────────────────┘                   │  │
-│  └──────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────┘
-                        │
-                        ▼
-            ┌───────────────────────┐
-            │    React Frontend     │
-            │  - Query Interface    │
-            │  - Chat Display       │
-            │  - Analytics Dashboard│
-            │  - Export Options     │
-            └───────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│                   React + Vite + Tailwind (SPA)              │
+│  Landing │ Login │ Chat (SSE) │ History │ Documents │ Stats  │
+└───────────────────────────┬──────────────────────────────────┘
+                            │ JSON / SSE  (Bearer JWT)
+┌───────────────────────────▼──────────────────────────────────┐
+│                    FastAPI  (uvicorn, async)                 │
+│  /api/auth ▪ /api/chat ▪ /api/conversations ▪ /api/documents │
+│  /api/metrics ▪ /api/feedback ▪ /api/health ▪ /api/providers │
+├──────────────────────────────────────────────────────────────┤
+│   Agent core   →   Tool-calling ReAct loop                   │
+│        ├─ providers.py    multi-LLM (OpenAI-compatible)      │
+│        ├─ tools.py        web · wiki · arXiv · calc          │
+│        └─ rag.py          FAISS + HF embeddings              │
+├──────────────────────────────────────────────────────────────┤
+│   SQLAlchemy ORM  →  Users · Conversations · Messages ·      │
+│                      Documents · Feedback · UsageRecords     │
+└─────────┬────────────────────────────────────────────┬───────┘
+          ▼                                            ▼
+      SQLite / Postgres                         FAISS vector store
+                                                (per-document namespace)
 ```
 
 ---
 
-## 📁 Project Structure
-
-```
-ai-research-agent/
-├── agent.py              # Multi-agent system implementation
-├── main.py               # FastAPI backend with API endpoints
-├── static/
-│   └── index.html        # React frontend (single file)
-├── requirements.txt      # Python dependencies
-├── .env                  # API keys (not in repo)
-├── feedback.jsonl        # User feedback log
-└── README.md            # This file
-```
-
----
-
-## 🚀 Installation & Setup
+## 🚀 Quickstart
 
 ### Prerequisites
-- Python 3.9+
-- OpenAI API Key
-- Tavily API Key
+- Python **3.11+**
+- Node.js **20+**
+- (Optional) Docker 24+
 
-### Step 1: Clone the Repository
+### 1. Clone & configure
+
 ```bash
-git clone https://github.com/yourusername/ai-research-agent.git
-cd ai-research-agent
+git clone https://github.com/Sanjoy-Chattopadhay/AI_Research-Agent.git
+cd AI_Research-Agent
+cp .env.example .env
 ```
 
-### Step 2: Install Dependencies
+Then open `.env` and fill in **at least one** of these — all have free tiers:
+
+| Provider     | Get a key                                   | Free tier? |
+|--------------|---------------------------------------------|------------|
+| **Groq**     | https://console.groq.com                    | ✅ generous, fast |
+| OpenRouter   | https://openrouter.ai                       | ✅ free-tier models |
+| Hugging Face | https://huggingface.co/settings/tokens      | ✅ rate-limited |
+| Ollama       | https://ollama.com (run locally)            | ✅ fully offline |
+| OpenAI       | https://platform.openai.com                 | ❌ paid |
+
+```dotenv
+GROQ_API_KEY=gsk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+DEFAULT_PROVIDER=groq
+SECRET_KEY=please-generate-a-long-random-string-32+chars
+```
+
+### 2. Run with Docker (one command)
+
 ```bash
+docker compose up --build
+```
+
+App is live at <http://localhost:8000>. ✅
+
+### 3. Or run locally (dev mode, two terminals)
+
+```bash
+# Terminal 1 — backend
+python -m venv .venv
+.venv\Scripts\activate                # Windows
+# source .venv/bin/activate           # macOS / Linux
 pip install -r requirements.txt
+uvicorn app.main:app --reload         # http://localhost:8000
+
+# Terminal 2 — frontend (with hot reload)
+cd frontend
+npm install
+npm run dev                           # http://localhost:5173
 ```
 
-### Step 3: Configure Environment Variables
-Create a `.env` file:
-```env
-OPENAI_API_KEY=sk-proj-xxxxx
-TAVILY_API_KEY=tvly-xxxxx
-```
-
-### Step 4: Create Directory Structure
-```bash
-mkdir static
-# Move index.html to static/
-```
-
-### Step 5: Run the Application
-```bash
-uvicorn main:app --reload
-```
-
-Visit: **http://localhost:8000**
+The Vite dev server proxies `/api/*` to the FastAPI process automatically.
 
 ---
 
-## 📡 API Endpoints
+## 🧠 Using the agent
 
-### Research Endpoints
-- `GET /api/ask?query=<question>` - Submit research query
-- `POST /api/ask` - Submit with full context (JSON body)
-
-### Management Endpoints
-- `GET /api/metrics` - Get system performance metrics
-- `GET /api/history` - Retrieve conversation history
-- `POST /api/history/clear` - Clear conversation memory
-- `POST /api/feedback` - Submit user feedback
-
-### Export Endpoints
-- `GET /api/export/json` - Export as JSON
-- `GET /api/export/md` - Export as Markdown
-- `GET /api/export/txt` - Export as plain text
-
-### Health Check
-- `GET /api/health` - Service health status
+1. Open the app, click **Get started**, create an account.
+2. Type a research question in chat. The agent will:
+   - emit **status** events (which provider, which tool)
+   - call tools as needed (web / arXiv / wikipedia / calc)
+   - **stream** the final markdown answer back token-by-token
+3. To chat with your own papers, go to **Documents → Upload PDF**, then toggle **RAG** in the chat header and select the doc.
+4. **History** lists every conversation (re-open, export to Markdown, delete).
+5. **Analytics** shows per-provider tokens, latency, and estimated cost.
 
 ---
 
-## 🎓 Usage Examples
+## 📡 API reference (selected)
 
-### Example 1: Basic Research Query
-```bash
-curl "http://localhost:8000/api/ask?query=What%20are%20the%20latest%20advances%20in%20quantum%20computing"
+`POST /api/auth/register`  → `{ access_token, user }`
+`POST /api/auth/login`     → `{ access_token, user }`
+`GET  /api/auth/me`        → current user
+
+`POST /api/chat`           → non-streaming answer
+`POST /api/chat/stream`    → **SSE** stream: `meta`, `status`, `tool`, `token`, `done`, `saved`
+
+`GET  /api/conversations`              → list
+`GET  /api/conversations/{id}`         → with messages
+`GET  /api/conversations/{id}/export.md`
+`DELETE /api/conversations/{id}`
+
+`POST   /api/documents` (multipart)    → upload + index
+`GET    /api/documents`                → list
+`DELETE /api/documents/{id}`
+
+`GET  /api/metrics`        → per-user usage rollup
+`POST /api/feedback`       → 1–5 rating + comment
+`GET  /api/health`         → liveness probe
+`GET  /api/providers`      → providers configured at runtime
+
+Full interactive docs at **`/api/docs`** (Swagger) and **`/api/redoc`**.
+
+---
+
+## 🛠️ Tech stack
+
+**Backend** &nbsp;FastAPI · SQLAlchemy 2 · Pydantic v2 · python-jose · passlib (bcrypt) · slowapi · OpenAI SDK (pointed at Groq/OpenRouter/Ollama/HF/OpenAI) · FAISS · sentence-transformers · pypdf · ddgs · arxiv · wikipedia
+
+**Frontend** &nbsp;React 18 · TypeScript · Vite · Tailwind CSS · React Router · React Query · Zustand · react-markdown · lucide-react · react-hot-toast
+
+**Infra** &nbsp;Docker (multi-stage) · docker-compose · GitHub Actions · Render · Fly.io · Heroku-style Procfile
+
+---
+
+## 📁 Project layout
+
+```
+AI_Research-Agent/
+├── app/                          # FastAPI backend package
+│   ├── main.py                   # app factory, SPA fallback
+│   ├── config.py                 # pydantic-settings
+│   ├── database.py models.py schemas.py
+│   ├── security.py deps.py rate_limit.py logging_config.py
+│   ├── agents/
+│   │   ├── providers.py          # multi-LLM abstraction
+│   │   ├── tools.py              # web / wiki / arxiv / calc
+│   │   ├── rag.py                # FAISS + HF embeddings
+│   │   └── research_agent.py     # tool-calling ReAct loop
+│   └── api/                      # auth, chat, conversations, documents, metrics, health
+├── frontend/                     # Vite + React + TS + Tailwind
+│   ├── src/pages/                # Landing, Login, Register, Chat, History, Documents, Analytics
+│   ├── src/components/Layout.tsx
+│   ├── src/api/client.ts         # axios + SSE stream client
+│   └── src/store/auth.ts         # Zustand persistent auth
+├── tests/                        # pytest (API + tools)
+├── .github/workflows/ci.yml      # backend tests · frontend build · docker build
+├── Dockerfile docker-compose.yml
+├── render.yaml fly.toml Procfile runtime.txt
+├── requirements.txt .env.example
+├── LICENSE README.md CONTRIBUTING.md
 ```
 
-### Example 2: Multi-turn Conversation
-```python
-import requests
+---
 
-# First query
-response1 = requests.post('http://localhost:8000/api/ask', 
-    json={"query": "What is LangChain?"})
+## 🌐 Deployment
 
-# Follow-up (maintains context)
-response2 = requests.post('http://localhost:8000/api/ask',
-    json={"query": "How does it compare to AutoGen?"})
+### Render (free tier)
+1. Push to GitHub.
+2. New Web Service → connect repo → Render detects `render.yaml`.
+3. Add `GROQ_API_KEY` (or your provider of choice) in the dashboard.
+
+### Fly.io
+```bash
+fly launch --copy-config --no-deploy   # uses fly.toml
+fly secrets set GROQ_API_KEY=... SECRET_KEY=$(openssl rand -hex 32)
+fly volumes create agent_data --size 1
+fly deploy
 ```
 
-### Example 3: Export History
+### Any Docker host
 ```bash
-curl "http://localhost:8000/api/export/md" > research.md
+docker build -t ai-research-agent .
+docker run -p 8000:8000 --env-file .env -v $(pwd)/data:/app/data ai-research-agent
 ```
 
 ---
 
 ## 🧪 Testing
 
-### Test Basic Functionality
 ```bash
-# Health check
-curl http://localhost:8000/api/health
-
-# Simple query
-curl "http://localhost:8000/api/ask?query=What%20is%20AI"
-
-# Get metrics
-curl http://localhost:8000/api/metrics
-```
-
-### Test Advanced Features
-- Multi-turn conversations
-- Memory persistence
-- Tool usage (calculator, summarizer)
-- Export functionality
-
----
-
-## 🎨 Customization
-
-### Add New Tools
-```python
-# In agent.py
-def create_custom_tool(llm):
-    def custom_function(input: str) -> str:
-        # Your logic here
-        return result
-    
-    return Tool(
-        name="CustomTool",
-        func=custom_function,
-        description="Description for the agent"
-    )
-```
-
-### Modify Agent Behavior
-```python
-# In agent.py - MultiAgentResearchSystem._create_agent()
-system_message = """
-Your custom system prompt here...
-"""
-```
-
-### Change UI Theme
-```css
-/* In index.html - <style> section */
-background: linear-gradient(135deg, #your-color-1 0%, #your-color-2 100%);
+pytest -q                       # backend
+cd frontend && npm run build    # frontend type-check + bundle
+docker build -t agent:test .    # full pipeline build
 ```
 
 ---
 
-## 📊 Features in Detail
+## 🗺️ Roadmap
 
-### 1. **Multi-Agent Orchestration**
-- Uses LangChain's OpenAI Functions agent
-- ReAct pattern for reasoning and acting
-- Dynamic tool selection based on query
-
-### 2. **Conversational Memory**
-- ConversationBufferMemory for context retention
-- Maintains dialogue history across sessions
-- Enables follow-up questions
-
-### 3. **Academic Source Prioritization**
-```python
-include_domains=["arxiv.org", "scholar.google.com", "ieee.org", "acm.org"]
-```
-
-### 4. **Cost Tracking**
-- Uses OpenAI callbacks to monitor token usage
-- Real-time cost calculation
-- Per-query and cumulative metrics
-
-### 5. **Error Handling**
-- Graceful fallbacks for tool failures
-- Parsing error recovery
-- User-friendly error messages
+- [ ] LangGraph-based multi-agent (Planner / Researcher / Critic)
+- [ ] Citations panel with source preview
+- [ ] WebSocket streaming with cancellation
+- [ ] Per-user API-key vault (BYOK)
+- [ ] OAuth (Google / GitHub) login
+- [ ] Postgres + pgvector option
+- [ ] Voice input via Whisper
 
 ---
 
-## 🎯 Use Cases
+## 🙏 Acknowledgements
 
-### For Students
-- Literature review assistance
-- Concept explanations
-- Paper comparisons
-- Citation generation
-
-### For Researchers
-- Quick fact-checking
-- Multi-source information synthesis
-- Technical concept clarification
-- Recent publication discovery
-
-### For Developers
-- Framework comparisons
-- Best practice research
-- Technical documentation search
-- Code concept explanations
-
----
-
-## 🔒 Security & Privacy
-
-- API keys stored in `.env` (never committed)
-- No conversation data stored permanently by default
-- CORS configured for localhost development
-- Input sanitization on all endpoints
-
----
-
-## 📈 Performance Metrics
-
-Typical performance (GPT-4-mini):
-- **Response Time**: 2-5 seconds
-- **Cost per Query**: $0.001-0.005
-- **Tokens per Query**: 500-2000
-- **Accuracy**: High (multi-source verification)
-
----
-
-## 🚧 Roadmap
-
-- [ ] Add user authentication
-- [ ] Implement database for conversation storage
-- [ ] Add PDF/document upload support
-- [ ] Create mobile-responsive design improvements
-- [ ] Add voice input/output
-- [ ] Implement collaborative research sessions
-- [ ] Add graph visualization for concept relationships
-
----
-
-## 🤝 Contributing
-
-This is an academic project, but suggestions are welcome!
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Open a pull request
+- [Groq](https://groq.com) — fastest free LLM inference today
+- [OpenRouter](https://openrouter.ai) — universal OpenAI-compatible router
+- [Hugging Face](https://huggingface.co) — open-source models & embeddings
+- [arXiv](https://arxiv.org) for open scholarly access
+- The FastAPI, React, and Tailwind communities
 
 ---
 
 ## 📝 License
 
-MIT License - feel free to use for educational purposes
-
----
-
-
-
-## 📚 References
-
-1. [LangChain Documentation](https://python.langchain.com/)
-2. [FastAPI Documentation](https://fastapi.tiangolo.com/)
-3. [OpenAI API Reference](https://platform.openai.com/docs)
-4. [React Documentation](https://react.dev/)
-
----
-
-**Built with ❤️ at NIT Durgapur**
+[MIT](./LICENSE) © 2026 Sanjoy Chattopadhyay

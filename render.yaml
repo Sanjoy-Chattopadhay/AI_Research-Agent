@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: ai-research-agent
+    runtime: docker
+    plan: starter
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: GROQ_API_KEY
+        sync: false
+      - key: DEFAULT_PROVIDER
+        value: groq
+      - key: ENVIRONMENT
+        value: prod
+    disk:
+      name: agent-data
+      mountPath: /app/data
+      sizeGB: 1

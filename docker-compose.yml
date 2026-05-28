@@ -1,0 +1,24 @@
+services:
+  api:
+    build: .
+    container_name: research-agent
+    ports:
+      - "8000:8000"
+    env_file: .env
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # Optional: local LLM server. Uncomment + run `docker compose --profile local up`.
+  # ollama:
+  #   image: ollama/ollama:latest
+  #   profiles: ["local"]
+  #   ports:
+  #     - "11434:11434"
+  #   volumes:
+  #     - ./data/ollama:/root/.ollama
